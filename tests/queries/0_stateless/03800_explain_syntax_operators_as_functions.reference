@@ -1,0 +1,110 @@
+SELECT plus(1, 2)
+FROM system.one
+SELECT minus(5, 3)
+FROM system.one
+SELECT multiply(4, 7)
+FROM system.one
+SELECT divide(10, 2)
+FROM system.one
+SELECT modulo(10, 3)
+FROM system.one
+SELECT negate(5)
+FROM system.one
+SELECT not(true)
+FROM system.one
+SELECT equals(1, 1)
+FROM system.one
+SELECT notEquals(1, 2)
+FROM system.one
+SELECT notEquals(1, 2)
+FROM system.one
+SELECT less(1, 2)
+FROM system.one
+SELECT greater(2, 1)
+FROM system.one
+SELECT lessOrEquals(1, 2)
+FROM system.one
+SELECT greaterOrEquals(2, 1)
+FROM system.one
+SELECT and(true, false)
+FROM system.one
+SELECT or(true, false)
+FROM system.one
+SELECT plus(plus(1, 2), 3)
+FROM system.one
+SELECT multiply(multiply(1, 2), 3)
+FROM system.one
+SELECT multiply(plus(1, 2), 3)
+FROM system.one
+SELECT plus(1, multiply(2, 3))
+FROM system.one
+SELECT plus(1, multiply(2, 3))
+FROM system.one
+SELECT multiply(plus(1, 2), plus(3, 4))
+FROM system.one
+SELECT minus(divide(10, 2), 3)
+FROM system.one
+SELECT
+    plus(1, multiply(2, 3)),
+    minus(5, 1),
+    not(true),
+    negate(10)
+FROM system.one
+SELECT and(equals(1, 1), less(2, 3))
+FROM system.one
+SELECT not(equals(1, 2))
+FROM system.one
+SELECT not(not(true))
+FROM system.one
+SELECT negate(negate(5))
+FROM system.one
+SELECT not(not(not(false)))
+FROM system.one
+SELECT like(\'test\', \'te%\')
+FROM system.one
+SELECT notLike(\'test\', \'x%\')
+FROM system.one
+SELECT in(1, tuple(1, 2, 3))
+FROM system.one
+SELECT notIn(1, tuple(4, 5, 6))
+FROM system.one
+SELECT isNull(_CAST(NULL, \'Nullable(Nothing)\'))
+FROM system.one
+SELECT isNotNull(1)
+FROM system.one
+SELECT arrayElement(_CAST([1, 2, 3], \'Array(UInt8)\'), 1)
+FROM system.one
+SELECT tupleElement(tuple(1, 2), 1)
+FROM system.one
+SELECT divide(multiply(plus(1, 2), minus(3, 4)), minus(plus(5, 6), multiply(7, 8)))
+FROM system.one
+SELECT or(and(less(1, 2), greater(3, 2)), equals(4, 4))
+FROM system.one
+SELECT
+    plus(1, 2),
+    minus(3, 4),
+    multiply(5, 6),
+    divide(7, 8),
+    modulo(9, 2),
+    negate(10),
+    not(true),
+    equals(11, 11),
+    notEquals(12, 13),
+    less(14, 15),
+    greater(16, 15),
+    lessOrEquals(17, 18),
+    greaterOrEquals(19, 18),
+    and(true, false),
+    or(true, false)
+FROM system.one
+SELECT plus(system.numbers.number, 1)
+FROM system.numbers
+LIMIT 1
+SELECT *
+FROM system.numbers
+WHERE and(greater(system.numbers.number, 0), less(system.numbers.number, 10))
+LIMIT 1
+SELECT plus(system.numbers.number, 1) AS n
+FROM system.numbers
+GROUP BY n
+LIMIT 1

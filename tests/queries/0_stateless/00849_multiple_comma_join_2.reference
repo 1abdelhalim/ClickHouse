@@ -24,8 +24,8 @@ SELECT countIf(or(like(explain, '%COMMA%'), like(explain, '%CROSS%'))), countIf(
 SELECT countIf(explain like '%COMMA%' OR explain like '%CROSS%'), countIf(explain like '%INNER%') FROM (
     EXPLAIN QUERY TREE SELECT t1.a FROM t1, t2, t3 WHERE t1.a = t2.a AND t1.a = t3.a) SETTINGS enable_analyzer = 1;
 0	2
-SELECT countIf(explain like '%COMMA%' OR explain like '%CROSS%'), countIf(explain like '%INNER%') FROM (
-    EXPLAIN QUERY TREE SELECT t1.a FROM t1, t2, t3 WHERE t1.b = t2.b AND t1.b = t3.b) SETTINGS enable_analyzer = 1;
+SELECT countIf(or(like(explain, '%COMMA%'), like(explain, '%CROSS%'))), countIf(like(explain, '%INNER%')) FROM (
+    EXPLAIN QUERY TREE SELECT t1.a FROM t1, t2, t3 WHERE and(equals(t1.b, t2.b), equals(t1.b, t3.b))) SETTINGS enable_analyzer = 1;
 0	2
 SELECT countIf(explain like '%COMMA%' OR explain like '%CROSS%'), countIf(explain like '%INNER%') FROM (
     EXPLAIN QUERY TREE SELECT t1.a FROM t1, t2, t3, t4 WHERE t1.a = t2.a AND t1.a = t3.a AND t1.a = t4.a) SETTINGS enable_analyzer = 1;

@@ -79,9 +79,9 @@ SELECT
     x1
 FROM test
 ORDER BY 1 ASC
-explain syntax select x3 + 1, x2, x1 from test order by 1;
+explain syntax select plus(x3, 1), x2, x1 from test order by 1;
 SELECT
-    x3 + 1,
+    plus(x3, 1),
     x2,
     x1
 FROM test
@@ -93,25 +93,25 @@ SELECT
     x1
 FROM test
 ORDER BY -1 ASC
-explain syntax select x3 + 1, x2, x1 from test order by -1;
+explain syntax select plus(x3, 1), x2, x1 from test order by -1;
 SELECT
-    x3 + 1,
+    plus(x3, 1),
     x2,
     x1
 FROM test
 ORDER BY -1 ASC
-explain syntax select x3, x3 - x2, x2, x1 from test order by 2;
+explain syntax select x3, minus(x3, x2), x2, x1 from test order by 2;
 SELECT
     x3,
-    x3 - x2,
+    minus(x3, x2),
     x2,
     x1
 FROM test
 ORDER BY 2 ASC
-explain syntax select x3, x3 - x2, x2, x1 from test order by -2;
+explain syntax select x3, minus(x3, x2), x2, x1 from test order by -2;
 SELECT
     x3,
-    x3 - x2,
+    minus(x3, x2),
     x2,
     x1
 FROM test

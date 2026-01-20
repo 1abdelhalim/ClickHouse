@@ -11,4 +11,4 @@ FROM
         square_number
     FROM numbers_indexed
 ) AS squares
-WHERE number = 999
+WHERE equals(number, 999)

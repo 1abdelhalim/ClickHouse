@@ -1,8 +1,8 @@
 SELECT
-    cityHash64(a) + 10,
+    plus(cityHash64(a), 10),
     b + 3
 FROM column_swap_test_test
-WHERE cityHash64(a) = 1
+WHERE equals(cityHash64(a), 1)
 QUERY id: 0
   PROJECTION COLUMNS
     plus(cityHash64(a), 10) UInt64
@@ -29,10 +29,10 @@ QUERY id: 0
           CONSTANT id: 14, constant_value: UInt64_1, constant_value_type: UInt8
   SETTINGS enable_analyzer=1
 SELECT
-    cityHash64(a) + 10,
+    plus(cityHash64(a), 10),
     b + 3
 FROM column_swap_test_test
-PREWHERE cityHash64(a) = 1
+PREWHERE equals(cityHash64(a), 1)
 QUERY id: 0
   PROJECTION COLUMNS
     plus(cityHash64(a), 10) UInt64
@@ -59,7 +59,7 @@ QUERY id: 0
           CONSTANT id: 14, constant_value: UInt64_1, constant_value_type: UInt8
   SETTINGS enable_analyzer=1
 SELECT
-    cityHash64(a) + 10,
+    plus(cityHash64(a), 10),
     b + 3
 FROM column_swap_test_test
 WHERE cityHash64(a) = 0
@@ -89,7 +89,7 @@ QUERY id: 0
           CONSTANT id: 14, constant_value: UInt64_0, constant_value_type: UInt8
   SETTINGS enable_analyzer=1
 SELECT
-    cityHash64(a) + 10,
+    plus(cityHash64(a), 10),
     b + 3
 FROM column_swap_test_test
 WHERE b = 0
@@ -119,7 +119,7 @@ QUERY id: 0
           CONSTANT id: 14, constant_value: UInt64_0, constant_value_type: UInt8
   SETTINGS enable_analyzer=1
 SELECT
-    cityHash64(a) + 10,
+    plus(cityHash64(a), 10),
     b + 3
 FROM column_swap_test_test
 WHERE b = 1
@@ -148,7 +148,7 @@ QUERY id: 0
           COLUMN id: 13, column_name: b, result_type: UInt64, source_id: 5
           CONSTANT id: 14, constant_value: UInt64_1, constant_value_type: UInt8
   SETTINGS enable_analyzer=1
-SELECT cityHash64(a) + 10
+SELECT plus(cityHash64(a), 10)
 FROM column_swap_test_test
 WHERE cityHash64(a) = 0
 QUERY id: 0
@@ -171,7 +171,7 @@ QUERY id: 0
           CONSTANT id: 10, constant_value: UInt64_0, constant_value_type: UInt8
   SETTINGS enable_analyzer=1
 SELECT
-    cityHash64(a) + 10,
+    plus(cityHash64(a), 10),
     a
 FROM column_swap_test_test
 WHERE cityHash64(a) = 0

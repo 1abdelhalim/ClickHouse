@@ -21,11 +21,11 @@ insert into rhs values ('abc');
 insert into rhs values ('abc');
 set final = 0;
 -- expected output is 4 because select_final == 0
-select count() from lhs inner join rhs on lhs.x = rhs.x;
+select count() from lhs inner join rhs on equals(lhs.x, rhs.x);
 4
 set final = 1;
 -- expected output is 1 because final == 1
-select count() from lhs inner join rhs on lhs.x = rhs.x;
+select count() from lhs inner join rhs on equals(lhs.x, rhs.x);
 1
 -- regular non final table
 set final = 1;

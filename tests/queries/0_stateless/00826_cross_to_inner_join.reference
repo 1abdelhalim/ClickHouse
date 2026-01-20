@@ -69,7 +69,7 @@ ORDER BY ALL ASC
 SELECT *
 FROM t1_00826 AS x
 CROSS JOIN t1_00826 AS y
-WHERE (x.a = y.a) AND (x.b = y.b)
+WHERE and(equals(x.a, y.a), equals(x.b, y.b))
 ORDER BY ALL ASC
 --- cross one table expr ---
 SELECT *

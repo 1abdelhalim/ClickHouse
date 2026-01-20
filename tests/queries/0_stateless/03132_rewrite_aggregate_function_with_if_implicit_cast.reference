@@ -1,9 +1,9 @@
 -- { echoOn }
 SELECT concat(1, sum(if(0, toUInt128(concat('%', toLowCardinality(toNullable(1)), toUInt256(1))), materialize(0))));
 10
-SELECT any(if((number % 10) = 5, number, CAST(NULL, 'Nullable(Int128)'))) AS a, toTypeName(a) FROM numbers(100) AS a;
+SELECT any(if(equals(modulo(number, 10), 5), number, CAST(NULL, 'Nullable(Int128)'))) AS a, toTypeName(a) FROM numbers(100) AS a;
 5	Nullable(Int128)
-EXPLAIN QUERY TREE SELECT any(if((number % 10) = 5, number, CAST(NULL, 'Nullable(Int128)'))) AS a, toTypeName(a) FROM numbers(100);
+EXPLAIN QUERY TREE SELECT any(if(equals(modulo(number, 10), 5), number, CAST(NULL, 'Nullable(Int128)'))) AS a, toTypeName(a) FROM numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     a Nullable(Int128)
@@ -52,9 +52,9 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 31, nodes: 1
           CONSTANT id: 32, constant_value: UInt64_100, constant_value_type: UInt8
-SELECT any(if((number % 10) = 5, CAST(NULL, 'Nullable(Int128)'), number)) AS a, toTypeName(a) FROM numbers(100) AS a;
+SELECT any(if(equals(modulo(number, 10), 5), CAST(NULL, 'Nullable(Int128)'), number)) AS a, toTypeName(a) FROM numbers(100) AS a;
 0	Nullable(Int128)
-EXPLAIN QUERY TREE SELECT any(if((number % 10) = 5, CAST(NULL, 'Nullable(Int128)'), number)) AS a, toTypeName(a) FROM numbers(100);
+EXPLAIN QUERY TREE SELECT any(if(equals(modulo(number, 10), 5), CAST(NULL, 'Nullable(Int128)'), number)) AS a, toTypeName(a) FROM numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     a Nullable(Int128)

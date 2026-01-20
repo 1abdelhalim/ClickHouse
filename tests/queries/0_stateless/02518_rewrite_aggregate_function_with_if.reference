@@ -1,7 +1,7 @@
 -- { echoOn }
 
 set optimize_rewrite_aggregate_function_with_if = false;
-EXPLAIN QUERY TREE run_passes = 1 select sum(if(number % 2, number, 0)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select sum(if(modulo(number, 2), number, 0)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     sum(if(modulo(number, 2), number, 0)) UInt64
@@ -25,7 +25,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 13, nodes: 1
           CONSTANT id: 14, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select sum(if(number % 2, 0, number)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select sum(if(modulo(number, 2), 0, number)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     sum(if(modulo(number, 2), 0, number)) UInt64
@@ -49,7 +49,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 13, nodes: 1
           CONSTANT id: 14, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select sum(if(number % 2, number, null)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select sum(if(modulo(number, 2), number, null)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     sum(if(modulo(number, 2), number, NULL)) Nullable(UInt64)
@@ -73,7 +73,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 13, nodes: 1
           CONSTANT id: 14, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select sum(if(number % 2, null, number)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select sum(if(modulo(number, 2), null, number)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     sum(if(modulo(number, 2), NULL, number)) Nullable(UInt64)
@@ -97,7 +97,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 13, nodes: 1
           CONSTANT id: 14, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select avg(if(number % 2, number, null)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select avg(if(modulo(number, 2), number, null)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     avg(if(modulo(number, 2), number, NULL)) Nullable(Float64)
@@ -121,7 +121,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 13, nodes: 1
           CONSTANT id: 14, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select avg(if(number % 2, null, number)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select avg(if(modulo(number, 2), null, number)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     avg(if(modulo(number, 2), NULL, number)) Nullable(Float64)
@@ -145,7 +145,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 13, nodes: 1
           CONSTANT id: 14, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select quantiles(0.5, 0.9, 0.99)(if(number % 2, number, null)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select quantiles(0.5, 0.9, 0.99)(if(modulo(number, 2), number, null)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     quantiles(0.5, 0.9, 0.99)(if(modulo(number, 2), number, NULL)) Array(Float64)
@@ -174,7 +174,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 17, nodes: 1
           CONSTANT id: 18, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select quantiles(0.5, 0.9, 0.99)(if(number % 2, null, number)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select quantiles(0.5, 0.9, 0.99)(if(modulo(number, 2), null, number)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     quantiles(0.5, 0.9, 0.99)(if(modulo(number, 2), NULL, number)) Array(Float64)
@@ -204,7 +204,7 @@ QUERY id: 0
         LIST id: 17, nodes: 1
           CONSTANT id: 18, constant_value: UInt64_100, constant_value_type: UInt8
 set optimize_rewrite_aggregate_function_with_if = true;
-EXPLAIN QUERY TREE run_passes = 1 select sum(if(number % 2, number, 0)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select sum(if(modulo(number, 2), number, 0)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     sum(if(modulo(number, 2), number, 0)) UInt64
@@ -224,7 +224,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 10, nodes: 1
           CONSTANT id: 11, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select sum(if(number % 2, 0, number)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select sum(if(modulo(number, 2), 0, number)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     sum(if(modulo(number, 2), 0, number)) UInt64
@@ -247,7 +247,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 12, nodes: 1
           CONSTANT id: 13, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select sum(if(number % 2, number, null)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select sum(if(modulo(number, 2), number, null)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     sum(if(modulo(number, 2), number, NULL)) Nullable(UInt64)
@@ -271,7 +271,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 13, nodes: 1
           CONSTANT id: 14, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select sum(if(number % 2, null, number)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select sum(if(modulo(number, 2), null, number)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     sum(if(modulo(number, 2), NULL, number)) Nullable(UInt64)
@@ -298,7 +298,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 15, nodes: 1
           CONSTANT id: 16, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select avg(if(number % 2, number, null)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select avg(if(modulo(number, 2), number, null)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     avg(if(modulo(number, 2), number, NULL)) Nullable(Float64)
@@ -322,7 +322,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 13, nodes: 1
           CONSTANT id: 14, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select avg(if(number % 2, null, number)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select avg(if(modulo(number, 2), null, number)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     avg(if(modulo(number, 2), NULL, number)) Nullable(Float64)
@@ -349,7 +349,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 15, nodes: 1
           CONSTANT id: 16, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select quantiles(0.5, 0.9, 0.99)(if(number % 2, number, null)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select quantiles(0.5, 0.9, 0.99)(if(modulo(number, 2), number, null)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     quantiles(0.5, 0.9, 0.99)(if(modulo(number, 2), number, NULL)) Array(Float64)
@@ -378,7 +378,7 @@ QUERY id: 0
       ARGUMENTS
         LIST id: 17, nodes: 1
           CONSTANT id: 18, constant_value: UInt64_100, constant_value_type: UInt8
-EXPLAIN QUERY TREE run_passes = 1 select quantiles(0.5, 0.9, 0.99)(if(number % 2, null, number)) from numbers(100);
+EXPLAIN QUERY TREE run_passes = 1 select quantiles(0.5, 0.9, 0.99)(if(modulo(number, 2), null, number)) from numbers(100);
 QUERY id: 0
   PROJECTION COLUMNS
     quantiles(0.5, 0.9, 0.99)(if(modulo(number, 2), NULL, number)) Array(Float64)

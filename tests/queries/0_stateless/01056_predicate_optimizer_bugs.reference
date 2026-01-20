@@ -16,7 +16,7 @@ FROM
         FROM system.one
     )
 )
-WHERE i = 0
+WHERE equals(i, 0)
 a	1	0	0
 a	2	1	0
 a	3	1	0
@@ -37,9 +37,9 @@ FROM
     FROM
     (
         SELECT
-            dummy + 1 AS co,
-            dummy + 2 AS co2,
-            dummy + 3 AS co3
+            plus(dummy, 1) AS co,
+            plus(dummy, 2) AS co2,
+            plus(dummy, 3) AS co3
         FROM system.one
     )
     GROUP BY
@@ -48,7 +48,7 @@ FROM
         co3
         WITH CUBE
 )
-WHERE (co != 0) AND (co2 != 2)
+WHERE and(notEquals(co, 0), notEquals(co2, 2))
 1	0	3	1
 1	0	0	1
 SELECT name
@@ -62,7 +62,7 @@ ANY INNER JOIN
     SELECT name
     FROM system.settings
 ) USING (name)
-WHERE name = \'enable_optimize_predicate_expression\'
+WHERE equals(name, 'enable_optimize_predicate_expression')
 enable_optimize_predicate_expression
 1	val11	val21	val31
 SELECT ccc
@@ -87,7 +87,7 @@ FROM
         ) USING (ccc)
     )
 )
-WHERE ccc > 1
+WHERE greater(ccc, 1)
 2
 SELECT
     ts,
@@ -137,7 +137,7 @@ FROM
     SELECT *
     FROM system.one
 )
-WHERE arrayMap(x -> (x + 1), [dummy]) = _CAST([1], \'Array(UInt8)\')
+WHERE equals(arrayMap(x -> plus(x, 1), [dummy]), _CAST([1], 'Array(UInt8)'))
 0
 SELECT *
 FROM

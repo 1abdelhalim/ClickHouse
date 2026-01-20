@@ -2,7 +2,7 @@
 EXPLAIN QUERY TREE run_passes = 1
 SELECT *
 FROM date_t__fuzz_0
-WHERE ((toYear(date1) AS b) != toNullable(1993)) AND (id <= b);
+WHERE and(notEquals((toYear(date1) AS b), toNullable(1993)), lessOrEquals(id, b));
 QUERY id: 0
   PROJECTION COLUMNS
     id UInt32

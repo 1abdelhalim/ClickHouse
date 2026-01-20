@@ -8,8 +8,8 @@
 -- { echoOn }
 
 EXPLAIN QUERY TREE
-SELECT * FROM t1, t2, (SELECT a as x from t3 where a + 1 = b ) as t3
-WHERE t1.a = if(t2.b > 0, t2.a, 0) AND t2.a = t3.x AND 1;
+SELECT * FROM t1, t2, (SELECT a as x from t3 where equals(plus(a, 1), b) ) as t3
+WHERE and(and(equals(t1.a, if(greater(t2.b, 0), t2.a, 0)), equals(t2.a, t3.x)), 1);
 QUERY id: 0
   PROJECTION COLUMNS
     t1.a UInt64
@@ -75,8 +75,8 @@ QUERY id: 0
   WHERE
     CONSTANT id: 37, constant_value: UInt64_1, constant_value_type: UInt8
 EXPLAIN QUERY TREE
-SELECT * FROM t1, t2, (SELECT a as x from t3 where a + 1 = b ) as t3
-WHERE t1.a = if(t2.b > 0, t2.a, 0) AND t2.a = t3.x AND 1
+SELECT * FROM t1, t2, (SELECT a as x from t3 where equals(plus(a, 1), b) ) as t3
+WHERE and(and(equals(t1.a, if(greater(t2.b, 0), t2.a, 0)), equals(t2.a, t3.x)), 1)
 SETTINGS cross_to_inner_join_rewrite = 0;
 QUERY id: 0
   PROJECTION COLUMNS

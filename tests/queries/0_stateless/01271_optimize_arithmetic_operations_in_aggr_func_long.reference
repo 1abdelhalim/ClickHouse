@@ -121,7 +121,7 @@ FROM
 SELECT
     sum(abs(2) + 1),
     sum(abs(2) + n),
-    sum(n - abs(2)),
+    sum(minus(n, abs(2))),
     sum(1 - abs(2))
 FROM
 (
@@ -141,7 +141,7 @@ FROM
 SELECT
     min(abs(2) + 1),
     min(abs(2) + n),
-    min(n - abs(2)),
+    min(minus(n, abs(2))),
     min(1 - abs(2))
 FROM
 (
@@ -161,7 +161,7 @@ FROM
 SELECT
     max(abs(2) + 1),
     max(abs(2) + n),
-    max(n - abs(2)),
+    max(minus(n, abs(2))),
     max(1 - abs(2))
 FROM
 (
@@ -181,7 +181,7 @@ FROM
 SELECT
     sum(abs(n) + 1),
     sum(abs(n) + n),
-    sum(n - abs(n)),
+    sum(minus(n, abs(n))),
     sum(1 - abs(n))
 FROM
 (
@@ -201,7 +201,7 @@ FROM
 SELECT
     min(abs(n) + 1),
     min(abs(n) + n),
-    min(n - abs(n)),
+    min(minus(n, abs(n))),
     min(1 - abs(n))
 FROM
 (
@@ -221,7 +221,7 @@ FROM
 SELECT
     max(abs(n) + 1),
     max(abs(n) + n),
-    max(n - abs(n)),
+    max(minus(n, abs(n))),
     max(1 - abs(n))
 FROM
 (

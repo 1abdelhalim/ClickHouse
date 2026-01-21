@@ -3,7 +3,7 @@ SELECT round(avg(multiply(log(2), number)), 6) AS k FROM numbers(10000000) GROUP
 3465735.9028
 3465735.9028
 3465736.595947
-SELECT round(avg(multiply(log(2), number)), 6) AS k FROM numbers(10000000) GROUP BY multiply(modulo(number, 2), modulo(number, 3)), modulo(number, 3), modulo(number, 2) HAVING greater(avg(multiply(log(2), number)), 3465735.3) ORDER BY k SETTINGS enable_analyzer=1;
+SELECT round(avg(multiply(log(2), number)), 6) AS k FROM numbers(10000000) GROUP BY multiply(modulo(number, 2), modulo(number, 3)), modulo(number, 3), modulo(number, 2) HAVING greater(avg(multiply(log(2), number)), 3465735.3) ORDER BY k SETTINGS equals(enable_analyzer, 1);
 3465735.9028
 3465735.9028
 3465736.595947
@@ -11,7 +11,7 @@ SELECT round(avg(multiply(log(2), number)), 6) AS k FROM numbers(10000000) GROUP
 3465734.169932
 3465734.863079
 3465735.556226
-SELECT round(avg(multiply(log(2), number)), 6) AS k FROM numbers(10000000) GROUP BY modulo(number, 5), multiply(modulo(number, 5), modulo(number, 5)) HAVING less(multiply(modulo(number, 5), modulo(number, 5)), 5) ORDER BY k SETTINGS enable_analyzer=1;
+SELECT round(avg(multiply(log(2), number)), 6) AS k FROM numbers(10000000) GROUP BY modulo(number, 5), multiply(modulo(number, 5), modulo(number, 5)) HAVING less(multiply(modulo(number, 5), modulo(number, 5)), 5) ORDER BY k SETTINGS equals(enable_analyzer, 1);
 3465734.169932
 3465734.863079
 3465735.556226
@@ -19,7 +19,7 @@ SELECT multiply(modulo(number, 5), modulo(number, 5)) AS k FROM numbers(10000000
 0
 1
 4
-SELECT multiply(modulo(number, 5), modulo(number, 5)) AS k FROM numbers(10000000) GROUP BY modulo(number, 5), multiply(modulo(number, 5), modulo(number, 5)) HAVING less(multiply(modulo(number, 5), modulo(number, 5)), 5) ORDER BY k SETTINGS enable_analyzer=1;
+SELECT multiply(modulo(number, 5), modulo(number, 5)) AS k FROM numbers(10000000) GROUP BY modulo(number, 5), multiply(modulo(number, 5), modulo(number, 5)) HAVING less(multiply(modulo(number, 5), modulo(number, 5)), 5) ORDER BY k SETTINGS equals(enable_analyzer, 1);
 0
 1
 4
@@ -29,16 +29,16 @@ GROUP BY
     (number % 2) * (number % 3),
     number % 3,
     number % 2
-HAVING avg(log(2) * number) > 3465735.3
+HAVING greater(avg(multiply(log(2), number)), 3465735.3)
 ORDER BY k ASC
 SELECT avg(log(2) * number) AS k
 FROM numbers(10000000)
 GROUP BY
     number % 3,
     number % 2
-HAVING avg(log(2) * number) > 3465735.3
+HAVING greater(avg(multiply(log(2), number)), 3465735.3)
 ORDER BY k ASC
-SETTINGS enable_analyzer = 0
+SETTINGS equals(enable_analyzer, 0)
 QUERY id: 0
   PROJECTION COLUMNS
     k Float64
@@ -114,14 +114,14 @@ FROM numbers(10000000)
 GROUP BY
     number % 5,
     (number % 5) * (number % 5)
-HAVING ((number % 5) * (number % 5)) < 5
+HAVING less(multiply((number % 5), (number % 5)), 5)
 ORDER BY k ASC
 SELECT avg(log(2) * number) AS k
 FROM numbers(10000000)
-WHERE ((number % 5) * (number % 5)) < 5
+WHERE less(multiply((number % 5), (number % 5)), 5)
 GROUP BY number % 5
 ORDER BY k ASC
-SETTINGS enable_analyzer = 0
+SETTINGS equals(enable_analyzer, 0)
 QUERY id: 0
   PROJECTION COLUMNS
     k Float64
@@ -192,14 +192,14 @@ FROM numbers(10000000)
 GROUP BY
     number % 5,
     (number % 5) * (number % 5)
-HAVING ((number % 5) * (number % 5)) < 5
+HAVING less(multiply((number % 5), (number % 5)), 5)
 ORDER BY k ASC
 SELECT (number % 5) * (number % 5) AS k
 FROM numbers(10000000)
-WHERE ((number % 5) * (number % 5)) < 5
+WHERE less(multiply((number % 5), (number % 5)), 5)
 GROUP BY number % 5
 ORDER BY k ASC
-SETTINGS enable_analyzer = 0
+SETTINGS equals(enable_analyzer, 0)
 QUERY id: 0
   PROJECTION COLUMNS
     k UInt16
@@ -280,7 +280,7 @@ GROUP BY
     (number % 2) * (number % 3),
     number % 3,
     number % 2
-HAVING avg(log(2) * number) > 3465735.3
+HAVING greater(avg(multiply(log(2), number)), 3465735.3)
 ORDER BY k ASC
 QUERY id: 0
   PROJECTION COLUMNS
@@ -370,12 +370,12 @@ FROM numbers(10000000)
 GROUP BY
     number % 5,
     (number % 5) * (number % 5)
-HAVING ((number % 5) * (number % 5)) < 5
+HAVING less(multiply((number % 5), (number % 5)), 5)
 ORDER BY k ASC
 SELECT (number % 5) * (number % 5) AS k
 FROM numbers(10000000)
 GROUP BY
     number % 5,
     (number % 5) * (number % 5)
-HAVING ((number % 5) * (number % 5)) < 5
+HAVING less(multiply((number % 5), (number % 5)), 5)
 ORDER BY k ASC

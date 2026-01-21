@@ -1,22 +1,22 @@
-SELECT avg(number + 2) FROM numbers(10)
+SELECT avgplus(number, 2) FROM numbers(10)
 value: 	6.5
 EXPLAIN syntax:
 SELECT avg(plus(number, 2))
 FROM numbers(10)
 
-SELECT avg(number - 2) FROM numbers(10)
+SELECT avgminus(number, 2) FROM numbers(10)
 value: 	2.5
 EXPLAIN syntax:
 SELECT avg(minus(number, 2))
 FROM numbers(10)
 
-SELECT avg(number * 2) FROM numbers(10)
+SELECT avgmultiply(number, 2) FROM numbers(10)
 value: 	9
 EXPLAIN syntax:
-SELECT avg(number * 2)
+SELECT avgmultiply(number, 2)
 FROM numbers(10)
 
-SELECT avg(number / 2) FROM numbers(10)
+SELECT avgdivide(number, 2) FROM numbers(10)
 value: 	2.25
 EXPLAIN syntax:
 SELECT avg(divide(number, 2))

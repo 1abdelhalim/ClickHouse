@@ -104,8 +104,8 @@ FROM
         id_b
     FROM A
 ) AS a
-ALL LEFT JOIN B AS b ON b.id = a.id_b
-WHERE a.ts <= toDateTime(\'1970-01-01 03:00:00\')
+ALL LEFT JOIN B AS b ON equals(b.id, a.id_b)
+WHERE lessOrEquals(a.ts, toDateTime)(\'1970-01-01 03:00:00\')
 SELECT
     ts AS `--a.ts`,
     id AS `--a.id`,
@@ -121,7 +121,7 @@ FROM
         id_b
     FROM A
 ) AS a
-ALL LEFT JOIN B AS b ON `--b.id` = `--a.id_b`
+ALL LEFT JOIN B AS b ON equals(`--b.id`, `--a.id_b`)
 WHERE `--a.ts` <= toDateTime(\'1970-01-01 03:00:00\')
 2	3
 3	4
@@ -154,8 +154,8 @@ ALL INNER JOIN
         3 AS value_1
     FROM system.one
 ) USING (id)
-WHERE arrayMap(x -> ((x + value) + value_1), _CAST([1], \'Array(UInt8)\')) = _CAST([6], \'Array(UInt8)\')
+WHERE equals(arrayMap(x -> plus(plus(x, value), value_1), _CAST([1], \'Array(UInt8)\')), _CAST([6], \'Array(UInt8)\'))
 1	2	3
 SELECT *
 FROM system.one
-HAVING (dummy > 0) AND (dummy < 0)
+HAVING (greater(dummy, 0)) AND (less(dummy, 0))

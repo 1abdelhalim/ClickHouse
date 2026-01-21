@@ -52,10 +52,10 @@ QUERY id: 0
         LIST id: 5, nodes: 2
           COLUMN id: 6, column_name: c, result_type: Int64, source_id: 3
           CONSTANT id: 7, constant_value: UInt64_100, constant_value_type: UInt8
-  SETTINGS enable_analyzer=1
+  SETTINGS equals(enable_analyzer, 1)
 SELECT count()
 FROM constraint_test_constants
-WHERE ((a > 100) OR (b > 100) OR (c > 100)) AND ((a <= 100) OR (b > 100) OR (c > 100)) AND ((NOT (b > 100)) OR (c > 100)) AND (c > 100)
+WHERE ((greater(a, 100)) OR (greater(b, 100)) OR (greater(c, 100))) AND ((lessOrEquals(a, 100)) OR (greater(b, 100)) OR (greater(c, 100))) AND ((NOT (greater(b, 100))) OR (greater(c, 100))) AND (greater(c, 100))
 QUERY id: 0
   PROJECTION COLUMNS
     count() UInt64
@@ -70,10 +70,10 @@ QUERY id: 0
         LIST id: 5, nodes: 2
           COLUMN id: 6, column_name: c, result_type: Int64, source_id: 3
           CONSTANT id: 7, constant_value: UInt64_100, constant_value_type: UInt8
-  SETTINGS enable_analyzer=1
+  SETTINGS equals(enable_analyzer, 1)
 SELECT count()
 FROM constraint_test_constants
-WHERE ((a > 100) OR (b > 100) OR (c > 100)) AND ((a <= 100) OR (b > 100) OR (c > 100)) AND ((NOT (b > 100)) OR (c > 100)) AND (c <= 100)
+WHERE ((greater(a, 100)) OR (greater(b, 100)) OR (greater(c, 100))) AND ((lessOrEquals(a, 100)) OR (greater(b, 100)) OR (greater(c, 100))) AND ((NOT (greater(b, 100))) OR (greater(c, 100))) AND (lessOrEquals(c, 100))
 QUERY id: 0
   PROJECTION COLUMNS
     count() UInt64
@@ -82,4 +82,4 @@ QUERY id: 0
       FUNCTION id: 2, function_name: count, function_type: aggregate, result_type: UInt64
   JOIN TREE
     TABLE id: 3, alias: __table1, table_name: default.constraint_test_constants
-  SETTINGS enable_analyzer=1
+  SETTINGS equals(enable_analyzer, 1)

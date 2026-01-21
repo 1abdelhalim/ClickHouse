@@ -22,7 +22,7 @@ FROM default.t AS __table1
 WHERE __table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE \'red\' = __table1.name
+    WHERE equals(\'red\', __table1.name)
 )
 ORDER BY
     __table1.color_id ASC,
@@ -38,7 +38,7 @@ FROM default.t AS __table1
 WHERE __table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE __table1.n < 10
+    WHERE less(__table1.n, 10)
 )
 ORDER BY
     __table1.color_id ASC,
@@ -56,7 +56,7 @@ FROM default.t AS __table1
 WHERE __table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE 10 > __table1.n
+    WHERE greater(10, __table1.n)
 )
 ORDER BY
     __table1.color_id ASC,
@@ -74,7 +74,7 @@ FROM default.t AS __table1
 WHERE __table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE _CAST(__table1.n, \'Int32\') >= 2
+    WHERE greaterOrEquals(_CAST(__table1.n, \'Int32\'), 2)
 )
 ORDER BY
     __table1.color_id ASC,
@@ -92,7 +92,7 @@ FROM default.t AS __table1
 WHERE __table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE __table1.name LIKE \'r%\'
+    WHERE like(__table1.name, \'r%\')
 )
 ORDER BY
     __table1.color_id ASC,
@@ -108,7 +108,7 @@ FROM default.t AS __table1
 WHERE __table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE __table1.name ILIKE \'r%\'
+    WHERE ilike(__table1.name, \'r%\')
 )
 ORDER BY
     __table1.color_id ASC,
@@ -154,7 +154,7 @@ FROM default.t AS __table1
 WHERE __table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE __table1.name NOT LIKE \'r%\'
+    WHERE notLike(__table1.name, \'r%\')
 )
 ORDER BY
     __table1.color_id ASC,
@@ -171,7 +171,7 @@ FROM default.t AS __table1
 WHERE __table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE __table1.name NOT ILIKE \'r%\'
+    WHERE notILike(__table1.name, \'r%\')
 )
 ORDER BY
     __table1.color_id ASC,
@@ -224,11 +224,11 @@ WHERE ((__table1.color_id IN (
 )) AND (__table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE __table1.n < 10
+    WHERE less(__table1.n, 10)
 ))) OR (__table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE __table1.name = \'green\'
+    WHERE equals(__table1.name, \'green\')
 ))
 ORDER BY
     __table1.color_id ASC,
@@ -280,7 +280,7 @@ FROM default.t AS __table1
 WHERE __table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
-    WHERE __table1.name = \'nonexistent_color\'
+    WHERE equals(__table1.name, \'nonexistent_color\')
 )
 ORDER BY __table1.color_id ASC
 Empty result set
@@ -307,7 +307,7 @@ SELECT
     __table1.payload AS payload,
     __table2.payload AS payload2
 FROM default.t AS __table1
-ALL INNER JOIN default.t AS __table2 ON (__table1.color_id = __table2.color_id) AND (__table1.color_id IN (
+ALL INNER JOIN default.t AS __table2 ON equals(__table1.color_id, __table2.color_id) AND (__table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
     WHERE equals(__table1.name, 'red')
@@ -325,7 +325,7 @@ SELECT
     __table1.payload AS payload,
     __table2.payload AS payload2
 FROM default.t AS __table1
-ALL LEFT JOIN default.t AS __table2 ON (__table1.color_id = __table2.color_id) AND (__table1.color_id IN (
+ALL LEFT JOIN default.t AS __table2 ON equals(__table1.color_id, __table2.color_id) AND (__table1.color_id IN (
     SELECT __table1.id AS id
     FROM dictionary(\'colors\') AS __table1
     WHERE equals(__table1.name, 'red')
@@ -466,6 +466,6 @@ WINDOW PARTITION BY
 Negative: non-constant RHS - plan
 SELECT __table1.color_id AS color_id
 FROM default.t AS __table1
-WHERE dictGetString(\'colors\', \'name\', __table1.color_id) = __table1.payload
+WHERE equals(dictGetString(\'colors\', \'name\', __table1.color_id), __table1.payload)
 ORDER BY __table1.color_id ASC
 Negative: non-constant RHS

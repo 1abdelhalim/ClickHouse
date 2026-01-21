@@ -8,16 +8,16 @@ Select sum(number - 1) from numbers(10);
 Select sum(1 - number) from numbers(10);
 -35
 EXPLAIN SYNTAX (Select sum(number + 1) from numbers(10));
-SELECT sum(number + 1)
+SELECT sum(plus(number, 1))
 FROM numbers(10)
 EXPLAIN SYNTAX (Select sum(1 + number) from numbers(10));
-SELECT sum(1 + number)
+SELECT sum(plus(1, number))
 FROM numbers(10)
 EXPLAIN SYNTAX (Select sum(number - 1) from numbers(10));
-SELECT sum(number - 1)
+SELECT sum(minus(number, 1))
 FROM numbers(10)
 EXPLAIN SYNTAX (Select sum(1 - number) from numbers(10));
-SELECT sum(1 - number)
+SELECT sum(minus(1, number))
 FROM numbers(10)
 WITH 1::Nullable(UInt64) as my_literal Select sum(number + my_literal) from numbers(0);
 \N
@@ -45,26 +45,26 @@ SELECT sum(((uint64 AS m) + (1 AS n)) AS i) j from test_table where m > 0 and n 
 EXPLAIN SYNTAX (SELECT sum(uint64 + 1 AS i) from test_table where i > 0);
 SELECT sum(uint64 + 1 AS i)
 FROM test_table
-WHERE i > 0
+WHERE greater(i, 0)
 EXPLAIN SYNTAX (SELECT sum(uint64 + 1) AS j from test_table having j > 0);
 SELECT sum(uint64 + 1) AS j
 FROM test_table
-HAVING j > 0
+HAVING greater(j, 0)
 EXPLAIN SYNTAX (SELECT sum(uint64 + 1 AS i) j from test_table where i > 0 having j > 0);
 SELECT sum(uint64 + 1 AS i) AS j
 FROM test_table
-WHERE i > 0
-HAVING j > 0
+WHERE greater(i, 0)
+HAVING greater(j, 0)
 EXPLAIN SYNTAX (SELECT sum((uint64 AS m) + (1 AS n)) j from test_table where m > 0 and n > 0 having j > 0);
 SELECT sum((uint64 AS m) + (1 AS n)) AS j
 FROM test_table
-WHERE (m > 0) AND (n > 0)
-HAVING j > 0
+WHERE and(greater(m, 0), greater(n, 0))
+HAVING greater(j, 0)
 EXPLAIN SYNTAX (SELECT sum(((uint64 AS m) + (1 AS n)) AS i) j from test_table where m > 0 and n > 0 and i > 0 having j > 0);
 SELECT sum((uint64 AS m) + (1 AS n) AS i) AS j
 FROM test_table
-WHERE (m > 0) AND (n > 0) AND (i > 0)
-HAVING j > 0
+WHERE and(and(greater(m, 0), greater(n, 0)), greater(i, 0))
+HAVING greater(j, 0)
 SELECT sum(1 + uint64 AS i) from test_table where i > 0;
 20
 SELECT sum(1 + uint64) AS j from test_table having j > 0;
@@ -76,28 +76,28 @@ SELECT sum((1 AS m) + (uint64 AS n)) j from test_table where m > 0 and n > 0 hav
 SELECT sum(((1 AS m) + (uint64 AS n)) AS i) j from test_table where m > 0 and n > 0 and i > 0 having j > 0;
 20
 EXPLAIN SYNTAX (SELECT sum(1 + uint64 AS i) from test_table where i > 0);
-SELECT sum(1 + uint64 AS i)
+SELECT sum(plus(1, uint64) AS i)
 FROM test_table
-WHERE i > 0
+WHERE greater(i, 0)
 EXPLAIN SYNTAX (SELECT sum(1 + uint64) AS j from test_table having j > 0);
-SELECT sum(1 + uint64) AS j
+SELECT sum(plus(1, uint64)) AS j
 FROM test_table
-HAVING j > 0
+HAVING greater(j, 0)
 EXPLAIN SYNTAX (SELECT sum(1 + uint64 AS i) j from test_table where i > 0 having j > 0);
-SELECT sum(1 + uint64 AS i) AS j
+SELECT sum(plus(1, uint64) AS i) AS j
 FROM test_table
-WHERE i > 0
-HAVING j > 0
+WHERE greater(i, 0)
+HAVING greater(j, 0)
 EXPLAIN SYNTAX (SELECT sum((1 AS m) + (uint64 AS n)) j from test_table where m > 0 and n > 0 having j > 0);
-SELECT sum((1 AS m) + (uint64 AS n)) AS j
+SELECT sum(plus((1 AS m), (uint64 AS n))) AS j
 FROM test_table
-WHERE (m > 0) AND (n > 0)
-HAVING j > 0
+WHERE and(greater(m, 0), greater(n, 0))
+HAVING greater(j, 0)
 EXPLAIN SYNTAX (SELECT sum(((1 AS m) + (uint64 AS n)) AS i) j from test_table where m > 0 and n > 0 and i > 0 having j > 0);
-SELECT sum((1 AS m) + (uint64 AS n) AS i) AS j
+SELECT sum(plus((1 AS m), (uint64 AS n)) AS i) AS j
 FROM test_table
-WHERE (m > 0) AND (n > 0) AND (i > 0)
-HAVING j > 0
+WHERE and(and(greater(m, 0), greater(n, 0)), greater(i, 0))
+HAVING greater(j, 0)
 SELECT sum(uint64 - 1 AS i) from test_table where i > 0;
 10
 SELECT sum(uint64 - 1) AS j from test_table having j > 0;
@@ -109,28 +109,28 @@ SELECT sum((uint64 AS m) - (1 AS n)) j from test_table where m > 0 and n > 0 hav
 SELECT sum(((uint64 AS m) - (1 AS n)) AS i) j from test_table where m > 0 and n > 0 and i > 0 having j > 0;
 10
 EXPLAIN SYNTAX (SELECT sum(uint64 - 1 AS i) from test_table where i > 0);
-SELECT sum(uint64 - 1 AS i)
+SELECT sum(minus(uint64, 1) AS i)
 FROM test_table
-WHERE i > 0
+WHERE greater(i, 0)
 EXPLAIN SYNTAX (SELECT sum(uint64 - 1) AS j from test_table having j > 0);
-SELECT sum(uint64 - 1) AS j
+SELECT sum(minus(uint64, 1)) AS j
 FROM test_table
-HAVING j > 0
+HAVING greater(j, 0)
 EXPLAIN SYNTAX (SELECT sum(uint64 - 1 AS i) j from test_table where i > 0 having j > 0);
-SELECT sum(uint64 - 1 AS i) AS j
+SELECT sum(minus(uint64, 1) AS i) AS j
 FROM test_table
-WHERE i > 0
-HAVING j > 0
+WHERE greater(i, 0)
+HAVING greater(j, 0)
 EXPLAIN SYNTAX (SELECT sum((uint64 AS m) - (1 AS n)) j from test_table where m > 0 and n > 0 having j > 0);
-SELECT sum((uint64 AS m) - (1 AS n)) AS j
+SELECT sum(minus((uint64 AS m), (1 AS n))) AS j
 FROM test_table
-WHERE (m > 0) AND (n > 0)
-HAVING j > 0
+WHERE and(greater(m, 0), greater(n, 0))
+HAVING greater(j, 0)
 EXPLAIN SYNTAX (SELECT sum(((uint64 AS m) - (1 AS n)) AS i) j from test_table where m > 0 and n > 0 and i > 0 having j > 0);
-SELECT sum((uint64 AS m) - (1 AS n) AS i) AS j
+SELECT sum(minus((uint64 AS m), (1 AS n)) AS i) AS j
 FROM test_table
-WHERE (m > 0) AND (n > 0) AND (i > 0)
-HAVING j > 0
+WHERE and(and(greater(m, 0), greater(n, 0)), greater(i, 0))
+HAVING greater(j, 0)
 SELECT sum(1 - uint64 AS i) from test_table;
 -10
 SELECT sum(1 - uint64) AS j from test_table;
@@ -142,28 +142,28 @@ SELECT sum((1 AS m) - (uint64 AS n)) j from test_table;
 SELECT sum(((1 AS m) - (uint64 AS n)) AS i) j from test_table;
 -10
 EXPLAIN SYNTAX (SELECT sum(1 - uint64 AS i) from test_table where i > 0);
-SELECT sum(1 - uint64 AS i)
+SELECT sum(minus(1, uint64) AS i)
 FROM test_table
-WHERE i > 0
+WHERE greater(i, 0)
 EXPLAIN SYNTAX (SELECT sum(1 - uint64) AS j from test_table having j < 0);
-SELECT sum(1 - uint64) AS j
+SELECT sum(minus(1, uint64)) AS j
 FROM test_table
-HAVING j < 0
+HAVING less(j, 0)
 EXPLAIN SYNTAX (SELECT sum(1 - uint64 AS i) j from test_table where i > 0 having j < 0);
-SELECT sum(1 - uint64 AS i) AS j
+SELECT sum(minus(1, uint64) AS i) AS j
 FROM test_table
-WHERE i > 0
-HAVING j < 0
+WHERE greater(i, 0)
+HAVING less(j, 0)
 EXPLAIN SYNTAX (SELECT sum((1 AS m) - (uint64 AS n)) j from test_table where m > 0 and n > 0 having j < 0);
-SELECT sum((1 AS m) - (uint64 AS n)) AS j
+SELECT sum(minus((1 AS m), (uint64 AS n))) AS j
 FROM test_table
-WHERE (m > 0) AND (n > 0)
-HAVING j < 0
+WHERE and(greater(m, 0), greater(n, 0))
+HAVING less(j, 0)
 EXPLAIN SYNTAX (SELECT sum(((1 AS m) - (uint64 AS n)) AS i) j from test_table where m > 0 and n > 0 and i < 0 having j < 0);
-SELECT sum((1 AS m) - (uint64 AS n) AS i) AS j
+SELECT sum(minus((1 AS m), (uint64 AS n)) AS i) AS j
 FROM test_table
-WHERE (m > 0) AND (n > 0) AND (i < 0)
-HAVING j < 0
+WHERE and(and(greater(m, 0), greater(n, 0)), less(i, 0))
+HAVING less(j, 0)
 SELECT sum(uint64 + 2.11) From test_table;
 25.549999999999997
 SELECT sum(2.11 + uint64) From test_table;

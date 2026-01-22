@@ -273,16 +273,16 @@ EXPLAIN SYNTAX (SELECT summinus(2, float64) From test_table);
 SELECT summinus(2, float64)
 FROM test_table
 EXPLAIN SYNTAX (SELECT sum(float64) + 2 * count(float64) From test_table);
-SELECT sum(float64) + (2 * count(float64))
+SELECT plus(sum(float64), multiply(2, count(float64)))
 FROM test_table
 EXPLAIN SYNTAX (SELECT 2 * count(float64) + sum(float64) From test_table);
-SELECT (2 * count(float64)) + sum(float64)
+SELECT plus(multiply(2, count(float64)), sum(float64))
 FROM test_table
 EXPLAIN SYNTAX (SELECT sum(float64) - 2 * count(float64) From test_table);
-SELECT sum(float64) - (2 * count(float64))
+SELECT minus(sum(float64), multiply(2, count(float64)))
 FROM test_table
 EXPLAIN SYNTAX (SELECT 2 * count(float64) - sum(float64) From test_table);
-SELECT (2 * count(float64)) - sum(float64)
+SELECT minus(multiply(2, count(float64)), sum(float64))
 FROM test_table
 SELECT sumplus(decimal32, 2) From test_table;
 26.65
@@ -313,26 +313,26 @@ EXPLAIN SYNTAX (SELECT summinus(2, decimal32) From test_table);
 SELECT summinus(2, decimal32)
 FROM test_table
 EXPLAIN SYNTAX (SELECT sum(decimal32) + 2 * count(decimal32) From test_table);
-SELECT sum(decimal32) + (2 * count(decimal32))
+SELECT plus(sum(decimal32), multiply(2, count(decimal32)))
 FROM test_table
 EXPLAIN SYNTAX (SELECT 2 * count(decimal32) + sum(decimal32) From test_table);
-SELECT (2 * count(decimal32)) + sum(decimal32)
+SELECT plus(multiply(2, count(decimal32)), sum(decimal32))
 FROM test_table
 EXPLAIN SYNTAX (SELECT sum(decimal32) - 2 * count(decimal32) From test_table);
-SELECT sum(decimal32) - (2 * count(decimal32))
+SELECT minus(sum(decimal32), multiply(2, count(decimal32)))
 FROM test_table
 EXPLAIN SYNTAX (SELECT 2 * count(decimal32) - sum(decimal32) From test_table);
-SELECT (2 * count(decimal32)) - sum(decimal32)
+SELECT minus(multiply(2, count(decimal32)), sum(decimal32))
 FROM test_table
-SELECT sumplus(uint64, 2) + sumplus(uint64, 3) From test_table;
+SELECT plus(sumplus(uint64, 2), sumplus(uint64, 3)) From test_table;
 55
-SELECT sumplus(uint64, 2) - sumplus(uint64, 3) From test_table;
+SELECT minus(sumplus(uint64, 2), sumplus(uint64, 3)) From test_table;
 -5
-SELECT summinus(uint64, 2) + summinus(uint64, 3) From test_table;
+SELECT plus(summinus(uint64, 2), summinus(uint64, 3)) From test_table;
 5
-SELECT summinus(uint64, 2) - summinus(uint64, 3) From test_table;
+SELECT minus(summinus(uint64, 2), summinus(uint64, 3)) From test_table;
 5
-SELECT summinus(2, uint64) - summinus(3, uint64) From test_table;
+SELECT minus(summinus(2, uint64), summinus(3, uint64)) From test_table;
 -5
 SELECT (sum(uint64) + 2 * count(uint64)) + (sum(uint64) + 3 * count(uint64)) From test_table;
 55
@@ -344,45 +344,45 @@ SELECT (sum(uint64) - 2 * count(uint64)) - (sum(uint64) - 3 * count(uint64)) Fro
 5
 SELECT (2 * count(uint64) - sum(uint64)) + (3 * count(uint64) - sum(uint64)) From test_table;
 -5
-EXPLAIN SYNTAX (SELECT sumplus(uint64, 2) + sumplus(uint64, 3) From test_table);
-SELECT sumplus(uint64, 2) + sumplus(uint64, 3)
+EXPLAIN SYNTAX (SELECT plus(sumplus(uint64, 2), sumplus(uint64, 3)) From test_table);
+SELECT plus(sumplus(uint64, 2), sumplus(uint64, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT sumplus(uint64, 2) - sumplus(uint64, 3) From test_table);
-SELECT sumplus(uint64, 2) - sumplus(uint64, 3)
+EXPLAIN SYNTAX (SELECT minus(sumplus(uint64, 2), sumplus(uint64, 3)) From test_table);
+SELECT minus(sumplus(uint64, 2), sumplus(uint64, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT summinus(uint64, 2) + summinus(uint64, 3) From test_table);
-SELECT summinus(uint64, 2) + summinus(uint64, 3)
+EXPLAIN SYNTAX (SELECT plus(summinus(uint64, 2), summinus(uint64, 3)) From test_table);
+SELECT plus(summinus(uint64, 2), summinus(uint64, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT summinus(uint64, 2) - summinus(uint64, 3) From test_table);
-SELECT summinus(uint64, 2) - summinus(uint64, 3)
+EXPLAIN SYNTAX (SELECT minus(summinus(uint64, 2), summinus(uint64, 3)) From test_table);
+SELECT minus(summinus(uint64, 2), summinus(uint64, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT summinus(2, uint64) - summinus(3, uint64) From test_table);
-SELECT summinus(2, uint64) - summinus(3, uint64)
+EXPLAIN SYNTAX (SELECT minus(summinus(2, uint64), summinus(3, uint64)) From test_table);
+SELECT minus(summinus(2, uint64), summinus(3, uint64))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(uint64) + 2 * count(uint64)) + (sum(uint64) + 3 * count(uint64)) From test_table);
-SELECT (plus(sum(uint64), multiply(2, count(uint64)))) + (sum(uint64) + (3 * count(uint64)))
+SELECT plus(plus(sum(uint64), multiply(2, count(uint64))), plus(sum(uint64), multiply(3, count(uint64))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(uint64) + 2 * count(uint64)) - (sum(uint64) + 3 * count(uint64)) From test_table);
-SELECT (plus(sum(uint64), multiply(2, count(uint64)))) - (sum(uint64) + (3 * count(uint64)))
+SELECT minus(plus(sum(uint64), multiply(2, count(uint64))), plus(sum(uint64), multiply(3, count(uint64))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(uint64) - 2 * count(uint64)) + (sum(uint64) - 3 * count(uint64)) From test_table);
-SELECT (minus(sum(uint64), multiply(2, count(uint64)))) + (sum(uint64) - (3 * count(uint64)))
+SELECT plus(minus(sum(uint64), multiply(2, count(uint64))), minus(sum(uint64), multiply(3, count(uint64))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(uint64) - 2 * count(uint64)) - (sum(uint64) - 3 * count(uint64)) From test_table);
-SELECT (minus(sum(uint64), multiply(2, count(uint64)))) - (sum(uint64) - (3 * count(uint64)))
+SELECT minus(minus(sum(uint64), multiply(2, count(uint64))), minus(sum(uint64), multiply(3, count(uint64))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (2 * count(uint64) - sum(uint64)) + (3 * count(uint64) - sum(uint64)) From test_table);
-SELECT (minus(multiply(2, count(uint64)), sum(uint64))) + ((3 * count(uint64)) - sum(uint64))
+SELECT plus(minus(multiply(2, count(uint64)), sum(uint64)), minus(multiply(3, count(uint64)), sum(uint64)))
 FROM test_table
-SELECT sumplus(float64, 2) + sumplus(float64, 3) From test_table;
+SELECT plus(sumplus(float64, 2), sumplus(float64, 3)) From test_table;
 58.75
-SELECT sumplus(float64, 2) - sumplus(float64, 3) From test_table;
+SELECT minus(sumplus(float64, 2), sumplus(float64, 3)) From test_table;
 -5
-SELECT summinus(float64, 2) + summinus(float64, 3) From test_table;
+SELECT plus(summinus(float64, 2), summinus(float64, 3)) From test_table;
 8.75
-SELECT summinus(float64, 2) - summinus(float64, 3) From test_table;
+SELECT minus(summinus(float64, 2), summinus(float64, 3)) From test_table;
 5
-SELECT summinus(2, float64) - summinus(3, float64) From test_table;
+SELECT minus(summinus(2, float64), summinus(3, float64)) From test_table;
 -5
 SELECT (sum(float64) + 2 * count(float64)) + (sum(float64) + 3 * count(float64)) From test_table;
 58.75
@@ -394,45 +394,45 @@ SELECT (sum(float64) - 2 * count(float64)) - (sum(float64) - 3 * count(float64))
 5
 SELECT (2 * count(float64) - sum(float64)) + (3 * count(float64) - sum(float64)) From test_table;
 -8.75
-EXPLAIN SYNTAX (SELECT sumplus(float64, 2) + sumplus(float64, 3) From test_table);
-SELECT sumplus(float64, 2) + sumplus(float64, 3)
+EXPLAIN SYNTAX (SELECT plus(sumplus(float64, 2), sumplus(float64, 3)) From test_table);
+SELECT plus(sumplus(float64, 2), sumplus(float64, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT sumplus(float64, 2) - sumplus(float64, 3) From test_table);
-SELECT sumplus(float64, 2) - sumplus(float64, 3)
+EXPLAIN SYNTAX (SELECT minus(sumplus(float64, 2), sumplus(float64, 3)) From test_table);
+SELECT minus(sumplus(float64, 2), sumplus(float64, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT summinus(float64, 2) + summinus(float64, 3) From test_table);
-SELECT summinus(float64, 2) + summinus(float64, 3)
+EXPLAIN SYNTAX (SELECT plus(summinus(float64, 2), summinus(float64, 3)) From test_table);
+SELECT plus(summinus(float64, 2), summinus(float64, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT summinus(float64, 2) - summinus(float64, 3) From test_table);
-SELECT summinus(float64, 2) - summinus(float64, 3)
+EXPLAIN SYNTAX (SELECT minus(summinus(float64, 2), summinus(float64, 3)) From test_table);
+SELECT minus(summinus(float64, 2), summinus(float64, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT summinus(2, float64) - summinus(3, float64) From test_table);
-SELECT summinus(2, float64) - summinus(3, float64)
+EXPLAIN SYNTAX (SELECT minus(summinus(2, float64), summinus(3, float64)) From test_table);
+SELECT minus(summinus(2, float64), summinus(3, float64))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(float64) + 2 * count(float64)) + (sum(float64) + 3 * count(float64)) From test_table);
-SELECT (sum(float64) + (2 * count(float64))) + (sum(float64) + (3 * count(float64)))
+SELECT plus(plus(sum(float64), multiply(2, count(float64))), plus(sum(float64), multiply(3, count(float64))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(float64) + 2 * count(float64)) - (sum(float64) + 3 * count(float64)) From test_table);
-SELECT (sum(float64) + (2 * count(float64))) - (sum(float64) + (3 * count(float64)))
+SELECT minus(plus(sum(float64), multiply(2, count(float64))), plus(sum(float64), multiply(3, count(float64))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(float64) - 2 * count(float64)) + (sum(float64) - 3 * count(float64)) From test_table);
-SELECT (sum(float64) - (2 * count(float64))) + (sum(float64) - (3 * count(float64)))
+SELECT plus(minus(sum(float64), multiply(2, count(float64))), minus(sum(float64), multiply(3, count(float64))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(float64) - 2 * count(float64)) - (sum(float64) - 3 * count(float64)) From test_table);
-SELECT (sum(float64) - (2 * count(float64))) - (sum(float64) - (3 * count(float64)))
+SELECT minus(minus(sum(float64), multiply(2, count(float64))), minus(sum(float64), multiply(3, count(float64))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (2 * count(float64) - sum(float64)) + (3 * count(float64) - sum(float64)) From test_table);
-SELECT ((2 * count(float64)) - sum(float64)) + ((3 * count(float64)) - sum(float64))
+SELECT plus(minus(multiply(2, count(float64)), sum(float64)), minus(multiply(3, count(float64)), sum(float64)))
 FROM test_table
-SELECT sumplus(decimal32, 2) + sumplus(decimal32, 3) From test_table;
+SELECT plus(sumplus(decimal32, 2), sumplus(decimal32, 3)) From test_table;
 58.3
-SELECT sumplus(decimal32, 2) - sumplus(decimal32, 3) From test_table;
+SELECT minus(sumplus(decimal32, 2), sumplus(decimal32, 3)) From test_table;
 -5
-SELECT summinus(decimal32, 2) + summinus(decimal32, 3) From test_table;
+SELECT plus(summinus(decimal32, 2), summinus(decimal32, 3)) From test_table;
 8.3
-SELECT summinus(decimal32, 2) - summinus(decimal32, 3) From test_table;
+SELECT minus(summinus(decimal32, 2), summinus(decimal32, 3)) From test_table;
 5
-SELECT summinus(2, decimal32) - summinus(3, decimal32) From test_table;
+SELECT minus(summinus(2, decimal32), summinus(3, decimal32)) From test_table;
 -5
 SELECT (sum(decimal32) + 2 * count(decimal32)) + (sum(decimal32) + 3 * count(decimal32)) From test_table;
 58.3
@@ -444,35 +444,35 @@ SELECT (sum(decimal32) - 2 * count(decimal32)) - (sum(decimal32) - 3 * count(dec
 5
 SELECT (2 * count(decimal32) - sum(decimal32)) + (3 * count(decimal32) - sum(decimal32)) From test_table;
 -8.3
-EXPLAIN SYNTAX (SELECT sumplus(decimal32, 2) + sumplus(decimal32, 3) From test_table);
-SELECT sumplus(decimal32, 2) + sumplus(decimal32, 3)
+EXPLAIN SYNTAX (SELECT plus(sumplus(decimal32, 2), sumplus(decimal32, 3)) From test_table);
+SELECT plus(sumplus(decimal32, 2), sumplus(decimal32, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT sumplus(decimal32, 2) - sumplus(decimal32, 3) From test_table);
-SELECT sumplus(decimal32, 2) - sumplus(decimal32, 3)
+EXPLAIN SYNTAX (SELECT minus(sumplus(decimal32, 2), sumplus(decimal32, 3)) From test_table);
+SELECT minus(sumplus(decimal32, 2), sumplus(decimal32, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT summinus(decimal32, 2) + summinus(decimal32, 3) From test_table);
-SELECT summinus(decimal32, 2) + summinus(decimal32, 3)
+EXPLAIN SYNTAX (SELECT plus(summinus(decimal32, 2), summinus(decimal32, 3)) From test_table);
+SELECT plus(summinus(decimal32, 2), summinus(decimal32, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT summinus(decimal32, 2) - summinus(decimal32, 3) From test_table);
-SELECT summinus(decimal32, 2) - summinus(decimal32, 3)
+EXPLAIN SYNTAX (SELECT minus(summinus(decimal32, 2), summinus(decimal32, 3)) From test_table);
+SELECT minus(summinus(decimal32, 2), summinus(decimal32, 3))
 FROM test_table
-EXPLAIN SYNTAX (SELECT summinus(2, decimal32) - summinus(3, decimal32) From test_table);
-SELECT summinus(2, decimal32) - summinus(3, decimal32)
+EXPLAIN SYNTAX (SELECT minus(summinus(2, decimal32), summinus(3, decimal32)) From test_table);
+SELECT minus(summinus(2, decimal32), summinus(3, decimal32))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(decimal32) + 2 * count(decimal32)) + (sum(decimal32) + 3 * count(decimal32)) From test_table);
-SELECT (sum(decimal32) + (2 * count(decimal32))) + (sum(decimal32) + (3 * count(decimal32)))
+SELECT plus(plus(sum(decimal32), multiply(2, count(decimal32))), plus(sum(decimal32), multiply(3, count(decimal32))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(decimal32) + 2 * count(decimal32)) - (sum(decimal32) + 3 * count(decimal32)) From test_table);
-SELECT (sum(decimal32) + (2 * count(decimal32))) - (sum(decimal32) + (3 * count(decimal32)))
+SELECT minus(plus(sum(decimal32), multiply(2, count(decimal32))), plus(sum(decimal32), multiply(3, count(decimal32))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(decimal32) - 2 * count(decimal32)) + (sum(decimal32) - 3 * count(decimal32)) From test_table);
-SELECT (sum(decimal32) - (2 * count(decimal32))) + (sum(decimal32) - (3 * count(decimal32)))
+SELECT plus(minus(sum(decimal32), multiply(2, count(decimal32))), minus(sum(decimal32), multiply(3, count(decimal32))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (sum(decimal32) - 2 * count(decimal32)) - (sum(decimal32) - 3 * count(decimal32)) From test_table);
-SELECT (sum(decimal32) - (2 * count(decimal32))) - (sum(decimal32) - (3 * count(decimal32)))
+SELECT minus(minus(sum(decimal32), multiply(2, count(decimal32))), minus(sum(decimal32), multiply(3, count(decimal32))))
 FROM test_table
 EXPLAIN SYNTAX (SELECT (2 * count(decimal32) - sum(decimal32)) + (3 * count(decimal32) - sum(decimal32)) From test_table);
-SELECT ((2 * count(decimal32)) - sum(decimal32)) + ((3 * count(decimal32)) - sum(decimal32))
+SELECT plus(minus(multiply(2, count(decimal32)), sum(decimal32)), minus(multiply(3, count(decimal32)), sum(decimal32)))
 FROM test_table
 -- https://github.com/ClickHouse/ClickHouse/issues/59414
 SELECT sumplus(uint64, 2) as j, j + 5 as t from test_table;
